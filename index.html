@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NatureTech Directory — Invest in Nature as a Human</title>
+  <meta name="description" content="The place to discover how to invest in nature as a human. Browse platforms for land ownership, tree planting, carbon credits, biodiversity, and more.">
+  <style>
+    :root {
+      --green: #22c55e;
+      --yellow: #eab308;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --orange: #f97316;
+      --gray: #6b7280;
+      --brown: #a16207;
+      --white: #f3f4f6;
+      --bg: #fafaf9;
+      --card-bg: #ffffff;
+      --text: #1a1a1a;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      padding: 48px 0 32px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    header p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* Search */
+    .search-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      padding: 16px 0 12px;
+    }
+    .search-wrap input {
+      width: 100%;
+      padding: 14px 18px;
+      font-size: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: var(--card-bg);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .search-wrap input:focus {
+      border-color: var(--green);
+    }
+    .search-wrap input::placeholder {
+      color: #aaa;
+    }
+
+    /* Category filters */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px 0 24px;
+      justify-content: center;
+    }
+    .filter-btn {
+      padding: 8px 16px;
+      border: 2px solid transparent;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: var(--card-bg);
+      color: var(--text);
+    }
+    .filter-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .filter-btn.active {
+      color: #fff;
+    }
+    .filter-btn[data-cat="all"] { border-color: var(--text-muted); }
+    .filter-btn[data-cat="all"].active { background: var(--text); }
+    .filter-btn[data-cat="1"] { border-color: var(--green); }
+    .filter-btn[data-cat="1"].active { background: var(--green); }
+    .filter-btn[data-cat="2"] { border-color: var(--yellow); }
+    .filter-btn[data-cat="2"].active { background: var(--yellow); color: #1a1a1a; }
+    .filter-btn[data-cat="3"] { border-color: var(--blue); }
+    .filter-btn[data-cat="3"].active { background: var(--blue); }
+    .filter-btn[data-cat="4"] { border-color: var(--purple); }
+    .filter-btn[data-cat="4"].active { background: var(--purple); }
+    .filter-btn[data-cat="5"] { border-color: var(--orange); }
+    .filter-btn[data-cat="5"].active { background: var(--orange); }
+    .filter-btn[data-cat="6"] { border-color: var(--gray); }
+    .filter-btn[data-cat="6"].active { background: var(--gray); }
+    .filter-btn[data-cat="7"] { border-color: var(--brown); }
+    .filter-btn[data-cat="7"].active { background: var(--brown); color: #fff; }
+    .filter-btn[data-cat="8"] { border-color: #999; }
+    .filter-btn[data-cat="8"].active { background: #999; }
+
+    /* Count */
+    .result-count {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      padding-bottom: 16px;
+    }
+
+    /* Sections */
+    .category-section {
+      margin-bottom: 40px;
+    }
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+    .cat-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .category-header h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    /* Cards */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      transition: box-shadow 0.15s, transform 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .card-type {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .card-type.for-profit { background: #dbeafe; color: #1d4ed8; }
+    .card-type.not-for-profit { background: #dcfce7; color: #15803d; }
+    .card-type.dao { background: #f3e8ff; color: #7e22ce; }
+    .card-type.other { background: #f3f4f6; color: #4b5563; }
+
+    .card-positioning {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      flex-grow: 1;
+    }
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .card-meta .location {
+      margin-right: auto;
+    }
+    .tag {
+      background: #f3f4f6;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      color: #4b5563;
+    }
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--green);
+      text-decoration: none;
+      margin-top: 4px;
+    }
+    .card-link:hover { text-decoration: underline; }
+    .card-link svg { width: 14px; height: 14px; }
+
+    .card.hidden { display: none; }
+    .category-section.hidden { display: none; }
+
+    /* No results */
+    .no-results {
+      text-align: center;
+      padding: 48px 0;
+      color: var(--text-muted);
+      display: none;
+    }
+    .no-results.visible { display: block; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 48px 0 32px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      margin-top: 32px;
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 600px) {
+      header { padding: 32px 0 20px; }
+      header h1 { font-size: 1.5rem; }
+      header p { font-size: 0.95rem; }
+      .filters { gap: 6px; }
+      .filter-btn { padding: 6px 12px; font-size: 0.8rem; }
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>NatureTech Directory</h1>
+    <p>The place to discover how to invest in nature as a human</p>
+  </header>
+
+  <div class="search-wrap">
+    <input type="text" id="search" placeholder="Search platforms, tags, countries..." autocomplete="off">
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-cat="all">All</button>
+    <button class="filter-btn" data-cat="1">Land &amp; Ownership</button>
+    <button class="filter-btn" data-cat="2">Donation-Driven</button>
+    <button class="filter-btn" data-cat="3">Carbon &amp; Biodiversity</button>
+    <button class="filter-btn" data-cat="4">Project Developers</button>
+    <button class="filter-btn" data-cat="5">Natural Capital</button>
+    <button class="filter-btn" data-cat="6">Data &amp; Ratings</button>
+    <button class="filter-btn" data-cat="7">Agriculture &amp; Soil</button>
+    <button class="filter-btn" data-cat="8">Emerging</button>
+  </div>
+
+  <div class="result-count" id="resultCount"></div>
+
+  <main id="main"></main>
+
+  <div class="no-results" id="noResults">No platforms found. Try a different search or filter.</div>
+
+  <footer>
+    NatureTech Directory &mdash; Open-source. Contributions welcome.
+  </footer>
+</div>
+
+<script>
+const DATA = [
+  {
+    id: 1,
+    name: "Land & Ownership",
+    color: "#22c55e",
+    items: [
+      { name: "SquareBySquare", location: "Australia", type: "For-profit", customer: "Consumer", tags: ["land","marketplace","consumer"], positioning: "Own a precise square metre of rainforest with emotional ownership", website: "https://squarebysquare.org" },
+      { name: "Fund the Planet", location: "Germany", type: "For-profit", customer: "Consumer", tags: ["land","marketplace","consumer"], positioning: "Investment-style rainforest ownership", website: "https://fundtheplanet.net" },
+      { name: "Wilderlands", location: "Australia", type: "For-profit", customer: "Consumer", tags: ["biodiversity","marketplace","consumer"], positioning: "Buy and retire biodiversity credits tied to land", website: "https://wilderlands.earth" },
+      { name: "Treedom", location: "Italy", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Own and track a tree digitally", website: "https://treedom.net" },
+      { name: "Forest Nation", location: "Ireland", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Tree ownership meets corporate gifting", website: "https://forestnation.com" },
+      { name: "Evertreen", location: "UAE", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Trackable tree planting for individuals and companies", website: "https://evertreen.com" },
+      { name: "Treeapp", location: "UK", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Free daily tree planting via ads", website: "https://thetreeapp.org" },
+      { name: "EcoMatcher", location: "Hong Kong", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Corporate + personal tree tracking platform", website: "https://ecomatcher.com" }
+    ]
+  },
+  {
+    id: 2,
+    name: "Donation-Driven",
+    color: "#eab308",
+    items: [
+      { name: "Rainforest Trust", location: "USA", type: "Not-for-profit", customer: "Consumer", tags: ["donation","land"], positioning: "Direct land acquisition for conservation" },
+      { name: "World Land Trust", location: "UK", type: "Not-for-profit", customer: "Consumer", tags: ["donation","land"], positioning: "Sponsor land protection globally" },
+      { name: "Cool Earth", location: "UK", type: "Not-for-profit", customer: "Consumer", tags: ["donation"], positioning: "Fund indigenous forest protection" },
+      { name: "One Tree Planted", location: "USA", type: "Not-for-profit", customer: "Consumer", tags: ["trees","donation"], positioning: "Simple tree-per-dollar model" },
+      { name: "Greenfleet", location: "Australia", type: "Not-for-profit", customer: "Consumer", tags: ["trees","carbon"], positioning: "Offset emissions via forests" },
+      { name: "Trees for the Future", location: "USA", type: "Not-for-profit", customer: "Consumer", tags: ["trees","donation"], positioning: "Agroforestry for livelihoods" },
+      { name: "Eden Reforestation Projects", location: "USA", type: "Not-for-profit", customer: "Consumer", tags: ["trees"], positioning: "Mass-scale reforestation" }
+    ]
+  },
+  {
+    id: 3,
+    name: "Carbon & Biodiversity Marketplaces",
+    color: "#3b82f6",
+    items: [
+      { name: "Earthly", location: "UK", type: "For-profit", customer: "Hybrid", tags: ["credits","marketplace"], positioning: "Marketplace for nature-based credits" },
+      { name: "Patch", location: "USA", type: "For-profit", customer: "Enterprise", tags: ["carbon","marketplace"], positioning: "API for carbon markets" },
+      { name: "Cloverly", location: "USA", type: "For-profit", customer: "Enterprise", tags: ["carbon","marketplace"], positioning: "Carbon offset API infrastructure" },
+      { name: "Flowcarbon", location: "USA", type: "For-profit", customer: "Hybrid", tags: ["carbon","tokenised"], positioning: "Tokenised carbon credits marketplace" },
+      { name: "Moss.Earth", location: "Brazil", type: "For-profit", customer: "Consumer", tags: ["carbon","tokenised"], positioning: "Crypto-native carbon credits" },
+      { name: "KlimaDAO", location: "Global", type: "DAO", customer: "Consumer", tags: ["carbon","tokenised"], positioning: "Decentralised carbon reserve" },
+      { name: "Regen Network", location: "USA", type: "For-profit", customer: "Hybrid", tags: ["biodiversity","tokenised"], positioning: "Blockchain ecological credits" },
+      { name: "Single.Earth", location: "Estonia", type: "For-profit", customer: "Hybrid", tags: ["biodiversity","tokenised"], positioning: "Tokenised ecosystem services" },
+      { name: "ValueNature", location: "Africa / Global", type: "For-profit", customer: "Enterprise", tags: ["biodiversity","credits"], positioning: "Biodiversity investment certificates" },
+      { name: "Arkadiah", location: "Singapore", type: "For-profit", customer: "Enterprise", tags: ["credits","data"], positioning: "Satellite-driven nature credit platform" }
+    ]
+  },
+  {
+    id: 4,
+    name: "Project Developers",
+    color: "#a855f7",
+    items: [
+      { name: "Land Life Company", location: "Netherlands", type: "For-profit", tags: ["project_dev","carbon"], positioning: "Industrial reforestation" },
+      { name: "Permian Global", location: "UK", type: "For-profit", tags: ["project_dev","carbon"], positioning: "Large-scale forest carbon projects" },
+      { name: "InfiniteEARTH", location: "Hong Kong", type: "For-profit", tags: ["project_dev","carbon"], positioning: "Developer of REDD+ mega-projects" },
+      { name: "GreenCollar", location: "Australia", type: "For-profit", tags: ["carbon","biodiversity"], positioning: "Builds environmental markets" },
+      { name: "Dendra Systems", location: "UK", type: "For-profit", tags: ["project_dev","data"], positioning: "AI ecosystem restoration" }
+    ]
+  },
+  {
+    id: 5,
+    name: "Natural Capital & Fintech",
+    color: "#f97316",
+    items: [
+      { name: "Rebalance Earth", location: "UK", type: "For-profit", tags: ["fintech","ecosystem"], positioning: "Financialises ecosystem services" },
+      { name: "Intrinsic Exchange Group", location: "USA", type: "For-profit", tags: ["fintech"], positioning: "Nature as tradable asset class" },
+      { name: "Natural Asset Companies (NACs)", location: "USA", type: "For-profit", tags: ["fintech","land"], positioning: "Public markets for ecosystems" },
+      { name: "Pollination Group", location: "Australia", type: "For-profit", tags: ["fintech"], positioning: "Climate advisory + capital deployment" }
+    ]
+  },
+  {
+    id: 6,
+    name: "Data, Infrastructure & Ratings",
+    color: "#6b7280",
+    items: [
+      { name: "Sylvera", location: "UK", type: "For-profit", tags: ["data","carbon"], positioning: "Carbon credit ratings" },
+      { name: "BeZero Carbon", location: "UK", type: "For-profit", tags: ["data","carbon"], positioning: "Carbon ratings agency" },
+      { name: "Pachama", location: "USA", type: "For-profit", tags: ["data","carbon"], positioning: "AI verification of forest projects" },
+      { name: "Kita Earth", location: "UK", type: "For-profit", tags: ["fintech"], positioning: "Carbon insurance layer" }
+    ]
+  },
+  {
+    id: 7,
+    name: "Agriculture & Soil",
+    color: "#a16207",
+    items: [
+      { name: "Indigo Ag", location: "USA", type: "For-profit", tags: ["soil","carbon"], positioning: "Soil carbon marketplace" },
+      { name: "Agreena", location: "Denmark", type: "For-profit", tags: ["soil","carbon"], positioning: "Soil carbon credits for farmers" },
+      { name: "InSoil", location: "Europe", type: "For-profit", tags: ["soil","fintech"], positioning: "Soil health financing" }
+    ]
+  },
+  {
+    id: 8,
+    name: "Emerging & Experimental",
+    color: "#999999",
+    items: [
+      { name: "Open Forest Protocol", location: "Global", type: "For-profit", tags: ["blockchain","forest"], positioning: "Open forest data + funding" },
+      { name: "GainForest", location: "Global", type: "For-profit", tags: ["AI","funding"], positioning: "AI-based conservation incentives" },
+      { name: "BioCarbon Registry", location: "Colombia", type: "For-profit", tags: ["credits"], positioning: "Carbon & biodiversity registry" }
+    ]
+  }
+];
+
+const main = document.getElementById('main');
+const searchInput = document.getElementById('search');
+const filtersEl = document.getElementById('filters');
+const resultCountEl = document.getElementById('resultCount');
+const noResultsEl = document.getElementById('noResults');
+
+let activeCategory = 'all';
+
+function typeClass(t) {
+  if (!t) return 'other';
+  const l = t.toLowerCase();
+  if (l === 'for-profit') return 'for-profit';
+  if (l === 'not-for-profit') return 'not-for-profit';
+  if (l === 'dao') return 'dao';
+  return 'other';
+}
+
+function renderCards() {
+  main.innerHTML = '';
+  DATA.forEach(cat => {
+    const section = document.createElement('div');
+    section.className = 'category-section';
+    section.dataset.cat = cat.id;
+    section.id = 'cat-' + cat.id;
+
+    section.innerHTML = `
+      <div class="category-header">
+        <span class="cat-dot" style="background:${cat.color}"></span>
+        <h2>${cat.name}</h2>
+      </div>
+      <div class="cards-grid">
+        ${cat.items.map(item => `
+          <div class="card" data-search="${(item.name + ' ' + (item.location||'') + ' ' + (item.positioning||'') + ' ' + (item.tags||[]).join(' ') + ' ' + (item.customer||'') + ' ' + (item.type||'')).toLowerCase()}">
+            <div class="card-top">
+              <h3>${item.name}</h3>
+              ${item.type ? `<span class="card-type ${typeClass(item.type)}">${item.type}</span>` : ''}
+            </div>
+            ${item.positioning ? `<p class="card-positioning">${item.positioning}</p>` : ''}
+            <div class="card-meta">
+              ${item.location ? `<span class="location">${item.location}</span>` : ''}
+              ${(item.tags||[]).map(t => `<span class="tag">${t}</span>`).join('')}
+            </div>
+            ${item.website ? `<a class="card-link" href="${item.website}" target="_blank" rel="noopener">Visit website <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-4.5-6H21m0 0v7.5m0-7.5l-9 9"/></svg></a>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+    main.appendChild(section);
+  });
+}
+
+function applyFilters() {
+  const query = searchInput.value.toLowerCase().trim();
+  let visibleCount = 0;
+
+  document.querySelectorAll('.category-section').forEach(section => {
+    const catId = section.dataset.cat;
+    const catMatch = activeCategory === 'all' || activeCategory === catId;
+
+    if (!catMatch) {
+      section.classList.add('hidden');
+      return;
+    }
+
+    let sectionHasVisible = false;
+    section.querySelectorAll('.card').forEach(card => {
+      const text = card.dataset.search;
+      const match = !query || text.includes(query);
+      card.classList.toggle('hidden', !match);
+      if (match) {
+        sectionHasVisible = true;
+        visibleCount++;
+      }
+    });
+
+    section.classList.toggle('hidden', !sectionHasVisible);
+  });
+
+  const total = document.querySelectorAll('.card').length;
+  resultCountEl.textContent = query || activeCategory !== 'all'
+    ? `Showing ${visibleCount} of ${total} platforms`
+    : `${total} platforms`;
+
+  noResultsEl.classList.toggle('visible', visibleCount === 0);
+}
+
+// Filter buttons
+filtersEl.addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+
+  filtersEl.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeCategory = btn.dataset.cat;
+
+  // Scroll to section if specific category
+  if (activeCategory !== 'all') {
+    const section = document.getElementById('cat-' + activeCategory);
+    if (section) {
+      applyFilters();
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+  }
+
+  applyFilters();
+});
+
+// Search
+searchInput.addEventListener('input', () => {
+  applyFilters();
+});
+
+// Init
+renderCards();
+applyFilters();
+</script>
+
+</body>
+</html>
