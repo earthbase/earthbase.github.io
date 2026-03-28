@@ -326,6 +326,23 @@
     }
     .no-results.visible { display: block; }
 
+    /* Contribute */
+    .contribute {
+      text-align: center;
+      padding: 32px 20px;
+      margin-top: 40px;
+      border-top: 1px solid var(--border);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+    .contribute a {
+      color: var(--green);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .contribute a:hover { text-decoration: underline; }
+
     /* Footer */
     footer {
       text-align: center;
@@ -384,6 +401,11 @@
   <main id="main"></main>
 
   <div class="no-results" id="noResults">No platforms found. Try a different search or filter.</div>
+
+  <section class="contribute">
+    <p>EarthBase is an <a href="https://github.com/earthbase/earthbase.github.io" target="_blank" rel="noopener">open-source project</a> supported by <a href="https://www.squarebysquare.org" target="_blank" rel="noopener">SquareBySquare</a>.</p>
+    <p>Want to add a project? Email <a href="mailto:hello@squarebysquare.org">hello@squarebysquare.org</a></p>
+  </section>
 
   <footer>
     EarthBase &mdash; Open-source. Contributions welcome.
