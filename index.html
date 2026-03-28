@@ -20,6 +20,7 @@
       --text: #1a1a1a;
       --text-muted: #6b7280;
       --border: #e5e7eb;
+      --teal: #0d9488;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -85,7 +86,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      padding: 8px 0 24px;
+      padding: 8px 0 12px;
       justify-content: center;
     }
     .filter-btn {
@@ -124,6 +125,38 @@
     .filter-btn[data-cat="7"].active { background: var(--brown); color: #fff; }
     .filter-btn[data-cat="8"] { border-color: #999; }
     .filter-btn[data-cat="8"].active { background: #999; }
+
+    /* Map filters */
+    .map-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 0 0 24px;
+      justify-content: center;
+    }
+    .map-filter-btn {
+      padding: 6px 14px;
+      border: 1.5px solid var(--teal);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: var(--card-bg);
+      color: var(--teal);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .map-filter-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .map-filter-btn.active {
+      background: var(--teal);
+      color: #fff;
+    }
+    .map-filter-btn svg { width: 14px; height: 14px; }
 
     /* Count */
     .result-count {
@@ -180,11 +213,52 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      gap: 8px;
+    }
+    .card-top-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
     }
     .card h3 {
       font-size: 1rem;
       font-weight: 700;
     }
+    .map-badge {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s;
+      position: relative;
+    }
+    .map-badge:hover { transform: scale(1.15); }
+    .map-badge svg { width: 16px; height: 16px; }
+    .map-badge.experience { color: var(--teal); }
+    .map-badge.data { color: var(--gray); }
+    .map-badge .tooltip {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .map-badge:hover .tooltip { display: block; }
+
     .card-type {
       font-size: 0.7rem;
       font-weight: 600;
@@ -221,6 +295,12 @@
       font-size: 0.7rem;
       color: #4b5563;
     }
+    .card-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
     .card-link {
       display: inline-flex;
       align-items: center;
@@ -229,12 +309,10 @@
       font-weight: 600;
       color: var(--green);
       text-decoration: none;
-      margin-top: 4px;
     }
     .card-link:hover { text-decoration: underline; }
     .card-link svg { width: 14px; height: 14px; }
-    .card-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-    .card-link.map-link { color: var(--blue); }
+    .card-link.map-link { color: var(--teal); }
 
     .card.hidden { display: none; }
     .category-section.hidden { display: none; }
@@ -265,6 +343,8 @@
       header p { font-size: 0.95rem; }
       .filters { gap: 6px; }
       .filter-btn { padding: 6px 12px; font-size: 0.8rem; }
+      .map-filters { gap: 6px; }
+      .map-filter-btn { padding: 5px 10px; font-size: 0.75rem; }
       .cards-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -293,6 +373,12 @@
     <button class="filter-btn" data-cat="8">Emerging</button>
   </div>
 
+  <div class="map-filters" id="mapFilters">
+    <button class="map-filter-btn" data-map="has_map"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.882V15m6-6v8.118M3.058 4.134l3.503-1.752a.75.75 0 01.67 0l5.272 2.636 5.272-2.636a.75.75 0 011.08.67v12.572a.75.75 0 01-.42.67l-3.503 1.752a.75.75 0 01-.67 0L9.003 15.41l-5.272 2.636a.75.75 0 01-1.08-.67V4.804a.75.75 0 01.42-.67z"/></svg> Has map</button>
+    <button class="map-filter-btn" data-map="experience"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.882V15m6-6v8.118M3.058 4.134l3.503-1.752a.75.75 0 01.67 0l5.272 2.636 5.272-2.636a.75.75 0 011.08.67v12.572a.75.75 0 01-.42.67l-3.503 1.752a.75.75 0 01-.67 0L9.003 15.41l-5.272 2.636a.75.75 0 01-1.08-.67V4.804a.75.75 0 01.42-.67z"/></svg> Experience maps</button>
+    <button class="map-filter-btn" data-map="data"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503-11.244l-3.006-1.502a.75.75 0 00-.67 0L9.003 6.006a.75.75 0 01-.67 0L4.83 4.254a.75.75 0 00-1.08.67v12.572a.75.75 0 00.42.67l3.503 1.752a.75.75 0 00.67 0l3.154-1.577a.75.75 0 01.67 0l3.154 1.577a.75.75 0 001.08-.67V4.924a.75.75 0 00-.42-.67l-3.503-1.498z"/></svg> Data maps</button>
+  </div>
+
   <div class="result-count" id="resultCount"></div>
 
   <main id="main"></main>
@@ -305,20 +391,25 @@
 </div>
 
 <script>
+// SVG icons for map badges
+const MAP_ICON_EXPERIENCE = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.882V15m6-6v8.118M3.058 4.134l3.503-1.752a.75.75 0 01.67 0l5.272 2.636 5.272-2.636a.75.75 0 011.08.67v12.572a.75.75 0 01-.42.67l-3.503 1.752a.75.75 0 01-.67 0L9.003 15.41l-5.272 2.636a.75.75 0 01-1.08-.67V4.804a.75.75 0 01.42-.67z"/></svg>`;
+const MAP_ICON_DATA = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503-11.244l-3.006-1.502a.75.75 0 00-.67 0L9.003 6.006a.75.75 0 01-.67 0L4.83 4.254a.75.75 0 00-1.08.67v12.572a.75.75 0 00.42.67l3.503 1.752a.75.75 0 00.67 0l3.154-1.577a.75.75 0 01.67 0l3.154 1.577a.75.75 0 001.08-.67V4.924a.75.75 0 00-.42-.67l-3.503-1.498z"/></svg>`;
+const EXTERNAL_ICON = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-4.5-6H21m0 0v7.5m0-7.5l-9 9"/></svg>`;
+
 const DATA = [
   {
     id: 1,
     name: "Land & Ownership",
     color: "#22c55e",
     items: [
-      { name: "SquareBySquare", location: "Australia", type: "For-profit", customer: "Consumer", tags: ["land","marketplace","consumer"], positioning: "Own a precise square metre of rainforest with emotional ownership", website: "https://squarebysquare.org", map: "https://map.squarebysquare.org" },
-      { name: "Fund the Planet", location: "Germany", type: "For-profit", customer: "Consumer", tags: ["land","marketplace","consumer"], positioning: "Investment-style rainforest ownership", website: "https://fundtheplanet.net", map: "https://explorer.fundtheplanet.net" },
+      { name: "SquareBySquare", location: "Australia", type: "For-profit", customer: "Consumer", tags: ["land","marketplace","consumer"], positioning: "Own a precise square metre of rainforest with emotional ownership", website: "https://squarebysquare.org", has_map: true, map_url: "https://map.squarebysquare.org", map_type: "experience", map_provider: "native" },
+      { name: "Fund the Planet", location: "Germany", type: "For-profit", customer: "Consumer", tags: ["land","marketplace","consumer"], positioning: "Investment-style rainforest ownership", website: "https://fundtheplanet.net", has_map: true, map_url: "https://explorer.fundtheplanet.net", map_type: "experience", map_provider: "explorer.land" },
       { name: "Wilderlands", location: "Australia", type: "For-profit", customer: "Consumer", tags: ["biodiversity","marketplace","consumer"], positioning: "Buy and retire biodiversity credits tied to land", website: "https://wilderlands.earth" },
       { name: "Treedom", location: "Italy", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Own and track a tree digitally", website: "https://treedom.net" },
       { name: "Forest Nation", location: "Ireland", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Tree ownership meets corporate gifting", website: "https://forestnation.com" },
       { name: "Evertreen", location: "UAE", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Trackable tree planting for individuals and companies", website: "https://evertreen.com" },
       { name: "Treeapp", location: "UK", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Free daily tree planting via ads", website: "https://thetreeapp.org" },
-      { name: "EcoMatcher", location: "Hong Kong", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Corporate + personal tree tracking platform", website: "https://ecomatcher.com" }
+      { name: "EcoMatcher", location: "Hong Kong", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Corporate + personal tree tracking platform", website: "https://ecomatcher.com", has_map: true, map_url: "https://www.ecomatcher.com/global-forest-map/", map_type: "data", map_provider: "native" }
     ]
   },
   {
@@ -385,7 +476,10 @@ const DATA = [
       { name: "Sylvera", location: "UK", type: "For-profit", tags: ["data","carbon"], positioning: "Carbon credit ratings" },
       { name: "BeZero Carbon", location: "UK", type: "For-profit", tags: ["data","carbon"], positioning: "Carbon ratings agency" },
       { name: "Pachama", location: "USA", type: "For-profit", tags: ["data","carbon"], positioning: "AI verification of forest projects" },
-      { name: "Kita Earth", location: "UK", type: "For-profit", tags: ["fintech"], positioning: "Carbon insurance layer" }
+      { name: "Kita Earth", location: "UK", type: "For-profit", tags: ["fintech"], positioning: "Carbon insurance layer" },
+      { name: "Explorer.land", location: "Germany", type: "For-profit", tags: ["data","marketplace"], positioning: "Interactive mapping platform for conservation projects", website: "https://explorer.land", has_map: true, map_url: "https://home.explorer.land/interactive-map/", map_type: "experience", map_provider: "native" },
+      { name: "Restor", location: "Switzerland", type: "Not-for-profit", tags: ["data","ecosystem"], positioning: "Global hub connecting restoration sites with science and funding", website: "https://restor.eco", has_map: true, map_url: "https://restor.eco/sites/", map_type: "data", map_provider: "native" },
+      { name: "Global Forest Watch", location: "USA", type: "Not-for-profit", tags: ["data","carbon"], positioning: "Real-time forest monitoring and alert system by WRI", website: "https://www.globalforestwatch.org", has_map: true, map_url: "https://www.globalforestwatch.org/map/", map_type: "data", map_provider: "native" }
     ]
   },
   {
@@ -413,10 +507,12 @@ const DATA = [
 const main = document.getElementById('main');
 const searchInput = document.getElementById('search');
 const filtersEl = document.getElementById('filters');
+const mapFiltersEl = document.getElementById('mapFilters');
 const resultCountEl = document.getElementById('resultCount');
 const noResultsEl = document.getElementById('noResults');
 
 let activeCategory = 'all';
+let activeMapFilter = null;
 
 function typeClass(t) {
   if (!t) return 'other';
@@ -441,10 +537,22 @@ function renderCards() {
         <h2>${cat.name}</h2>
       </div>
       <div class="cards-grid">
-        ${cat.items.map(item => `
-          <div class="card" data-search="${(item.name + ' ' + (item.location||'') + ' ' + (item.positioning||'') + ' ' + (item.tags||[]).join(' ') + ' ' + (item.customer||'') + ' ' + (item.type||'')).toLowerCase()}">
+        ${cat.items.map(item => {
+          const searchText = (item.name + ' ' + (item.location||'') + ' ' + (item.positioning||'') + ' ' + (item.tags||[]).join(' ') + ' ' + (item.customer||'') + ' ' + (item.type||'')).toLowerCase();
+          const mapIcon = item.has_map
+            ? (item.map_type === 'experience' ? MAP_ICON_EXPERIENCE : MAP_ICON_DATA)
+            : '';
+          const mapBadge = item.has_map
+            ? `<a class="map-badge ${item.map_type}" href="${item.map_url}" target="_blank" rel="noopener" title="Explore this project on an interactive map">${mapIcon}<span class="tooltip">Explore interactive map</span></a>`
+            : '';
+
+          return `
+          <div class="card" data-search="${searchText}" data-has-map="${item.has_map ? '1' : '0'}" data-map-type="${item.map_type || ''}">
             <div class="card-top">
-              <h3>${item.name}</h3>
+              <div class="card-top-left">
+                <h3>${item.name}</h3>
+                ${mapBadge}
+              </div>
               ${item.type ? `<span class="card-type ${typeClass(item.type)}">${item.type}</span>` : ''}
             </div>
             ${item.positioning ? `<p class="card-positioning">${item.positioning}</p>` : ''}
@@ -453,11 +561,11 @@ function renderCards() {
               ${(item.tags||[]).map(t => `<span class="tag">${t}</span>`).join('')}
             </div>
             <div class="card-links">
-              ${item.website ? `<a class="card-link" href="${item.website}" target="_blank" rel="noopener">Website <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-4.5-6H21m0 0v7.5m0-7.5l-9 9"/></svg></a>` : ''}
-              ${item.map ? `<a class="card-link map-link" href="${item.map}" target="_blank" rel="noopener">Live map <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503-11.244l-3.006-1.502a.75.75 0 00-.67 0L9.003 6.006a.75.75 0 01-.67 0L4.83 4.254a.75.75 0 00-1.08.67v12.572a.75.75 0 00.42.67l3.503 1.752a.75.75 0 00.67 0l3.154-1.577a.75.75 0 01.67 0l3.154 1.577a.75.75 0 001.08-.67V4.924a.75.75 0 00-.42-.67l-3.503-1.498z"/></svg></a>` : ''}
+              ${item.website ? `<a class="card-link" href="${item.website}" target="_blank" rel="noopener">Website ${EXTERNAL_ICON}</a>` : ''}
+              ${item.has_map ? `<a class="card-link map-link" href="${item.map_url}" target="_blank" rel="noopener">View map ${item.map_type === 'experience' ? MAP_ICON_EXPERIENCE : MAP_ICON_DATA}</a>` : ''}
             </div>
-          </div>
-        `).join('')}
+          </div>`;
+        }).join('')}
       </div>
     `;
     main.appendChild(section);
@@ -477,12 +585,24 @@ function applyFilters() {
       return;
     }
 
+    section.classList.remove('hidden');
     let sectionHasVisible = false;
     section.querySelectorAll('.card').forEach(card => {
       const text = card.dataset.search;
-      const match = !query || text.includes(query);
-      card.classList.toggle('hidden', !match);
-      if (match) {
+      const textMatch = !query || text.includes(query);
+
+      let mapMatch = true;
+      if (activeMapFilter === 'has_map') {
+        mapMatch = card.dataset.hasMap === '1';
+      } else if (activeMapFilter === 'experience') {
+        mapMatch = card.dataset.mapType === 'experience';
+      } else if (activeMapFilter === 'data') {
+        mapMatch = card.dataset.mapType === 'data';
+      }
+
+      const visible = textMatch && mapMatch;
+      card.classList.toggle('hidden', !visible);
+      if (visible) {
         sectionHasVisible = true;
         visibleCount++;
       }
@@ -492,14 +612,15 @@ function applyFilters() {
   });
 
   const total = document.querySelectorAll('.card').length;
-  resultCountEl.textContent = query || activeCategory !== 'all'
+  const hasActiveFilter = query || activeCategory !== 'all' || activeMapFilter;
+  resultCountEl.textContent = hasActiveFilter
     ? `Showing ${visibleCount} of ${total} platforms`
     : `${total} platforms`;
 
   noResultsEl.classList.toggle('visible', visibleCount === 0);
 }
 
-// Filter buttons
+// Category filter buttons
 filtersEl.addEventListener('click', e => {
   const btn = e.target.closest('.filter-btn');
   if (!btn) return;
@@ -508,7 +629,6 @@ filtersEl.addEventListener('click', e => {
   btn.classList.add('active');
   activeCategory = btn.dataset.cat;
 
-  // Scroll to section if specific category
   if (activeCategory !== 'all') {
     const section = document.getElementById('cat-' + activeCategory);
     if (section) {
@@ -516,6 +636,24 @@ filtersEl.addEventListener('click', e => {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;
     }
+  }
+
+  applyFilters();
+});
+
+// Map filter buttons (toggle)
+mapFiltersEl.addEventListener('click', e => {
+  const btn = e.target.closest('.map-filter-btn');
+  if (!btn) return;
+
+  const value = btn.dataset.map;
+  if (activeMapFilter === value) {
+    activeMapFilter = null;
+    btn.classList.remove('active');
+  } else {
+    mapFiltersEl.querySelectorAll('.map-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeMapFilter = value;
   }
 
   applyFilters();

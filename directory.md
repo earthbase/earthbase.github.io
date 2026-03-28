@@ -23,6 +23,8 @@ consumer | enterprise | hybrid
 - Positioning: Own a precise square metre of rainforest with emotional ownership
 - Website: https://squarebysquare.org
 - Map: https://map.squarebysquare.org
+- Map Type: experience
+- Map Provider: native
 - Logo: https://squarebysquare.org/favicon.ico
 
 ## Fund the Planet
@@ -33,6 +35,8 @@ consumer | enterprise | hybrid
 - Positioning: Investment-style rainforest ownership
 - Website: https://fundtheplanet.net
 - Map: https://explorer.fundtheplanet.net
+- Map Type: experience
+- Map Provider: explorer.land
 - Logo: https://fundtheplanet.net/favicon.ico
 
 ## Wilderlands
@@ -87,6 +91,9 @@ consumer | enterprise | hybrid
 - Tags: [trees, consumer]
 - Positioning: Corporate + personal tree tracking platform
 - Website: https://ecomatcher.com
+- Map: https://www.ecomatcher.com/global-forest-map/
+- Map Type: data
+- Map Provider: native
 - Logo: https://ecomatcher.com/favicon.ico
 
 ---
@@ -304,6 +311,36 @@ consumer | enterprise | hybrid
 ## Kita Earth
 - Tags: [fintech]
 - Positioning: Carbon insurance layer
+
+## Explorer.land (OpenForests)
+- Location: Germany
+- Type: For-profit
+- Tags: [data, marketplace]
+- Positioning: Interactive mapping platform for conservation projects
+- Website: https://explorer.land
+- Map: https://home.explorer.land/interactive-map/
+- Map Type: experience
+- Map Provider: native
+
+## Restor
+- Location: Switzerland
+- Type: Not-for-profit
+- Tags: [data, ecosystem]
+- Positioning: Global hub connecting restoration sites with science and funding
+- Website: https://restor.eco
+- Map: https://restor.eco/sites/
+- Map Type: data
+- Map Provider: native
+
+## Global Forest Watch (WRI)
+- Location: USA
+- Type: Not-for-profit
+- Tags: [data, carbon]
+- Positioning: Real-time forest monitoring and alert system by WRI
+- Website: https://www.globalforestwatch.org
+- Map: https://www.globalforestwatch.org/map/
+- Map Type: data
+- Map Provider: native
 
 ---
 
