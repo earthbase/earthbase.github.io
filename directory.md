@@ -22,6 +22,7 @@ consumer | enterprise | hybrid
 - Tags: [land, marketplace, consumer]
 - Positioning: Own a precise square metre of rainforest with emotional ownership
 - Website: https://squarebysquare.org
+- Map: https://map.squarebysquare.org
 - Logo: https://squarebysquare.org/favicon.ico
 
 ## Fund the Planet
@@ -31,6 +32,7 @@ consumer | enterprise | hybrid
 - Tags: [land, marketplace, consumer]
 - Positioning: Investment-style rainforest ownership
 - Website: https://fundtheplanet.net
+- Map: https://explorer.fundtheplanet.net
 - Logo: https://fundtheplanet.net/favicon.ico
 
 ## Wilderlands
@@ -139,6 +141,22 @@ consumer | enterprise | hybrid
 - Customer: consumer
 - Tags: [trees]
 - Positioning: Mass-scale reforestation
+
+## C4: Community for Coastal and Cassowary Conservation
+- Location: Australia
+- Type: Not-for-profit
+- Customer: consumer
+- Tags: [land, biodiversity, ecosystem, donation]
+- Positioning: Protects cassowaries and coastal rainforest through land buyback
+- Website: https://www.cassowaryconservation.org
+
+## Gondwana Rainforest Trust
+- Location: Australia
+- Type: Not-for-profit
+- Customer: consumer
+- Tags: [land, biodiversity, trees, donation]
+- Positioning: Purchases, protects, and restores endangered rainforest
+- Website: https://www.gondwanarainforesttrust.org
 
 ---
 

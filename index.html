@@ -233,6 +233,8 @@
     }
     .card-link:hover { text-decoration: underline; }
     .card-link svg { width: 14px; height: 14px; }
+    .card-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .card-link.map-link { color: var(--blue); }
 
     .card.hidden { display: none; }
     .category-section.hidden { display: none; }
@@ -309,8 +311,8 @@ const DATA = [
     name: "Land & Ownership",
     color: "#22c55e",
     items: [
-      { name: "SquareBySquare", location: "Australia", type: "For-profit", customer: "Consumer", tags: ["land","marketplace","consumer"], positioning: "Own a precise square metre of rainforest with emotional ownership", website: "https://squarebysquare.org" },
-      { name: "Fund the Planet", location: "Germany", type: "For-profit", customer: "Consumer", tags: ["land","marketplace","consumer"], positioning: "Investment-style rainforest ownership", website: "https://fundtheplanet.net" },
+      { name: "SquareBySquare", location: "Australia", type: "For-profit", customer: "Consumer", tags: ["land","marketplace","consumer"], positioning: "Own a precise square metre of rainforest with emotional ownership", website: "https://squarebysquare.org", map: "https://map.squarebysquare.org" },
+      { name: "Fund the Planet", location: "Germany", type: "For-profit", customer: "Consumer", tags: ["land","marketplace","consumer"], positioning: "Investment-style rainforest ownership", website: "https://fundtheplanet.net", map: "https://explorer.fundtheplanet.net" },
       { name: "Wilderlands", location: "Australia", type: "For-profit", customer: "Consumer", tags: ["biodiversity","marketplace","consumer"], positioning: "Buy and retire biodiversity credits tied to land", website: "https://wilderlands.earth" },
       { name: "Treedom", location: "Italy", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Own and track a tree digitally", website: "https://treedom.net" },
       { name: "Forest Nation", location: "Ireland", type: "For-profit", customer: "Consumer", tags: ["trees","consumer"], positioning: "Tree ownership meets corporate gifting", website: "https://forestnation.com" },
@@ -330,7 +332,9 @@ const DATA = [
       { name: "One Tree Planted", location: "USA", type: "Not-for-profit", customer: "Consumer", tags: ["trees","donation"], positioning: "Simple tree-per-dollar model" },
       { name: "Greenfleet", location: "Australia", type: "Not-for-profit", customer: "Consumer", tags: ["trees","carbon"], positioning: "Offset emissions via forests" },
       { name: "Trees for the Future", location: "USA", type: "Not-for-profit", customer: "Consumer", tags: ["trees","donation"], positioning: "Agroforestry for livelihoods" },
-      { name: "Eden Reforestation Projects", location: "USA", type: "Not-for-profit", customer: "Consumer", tags: ["trees"], positioning: "Mass-scale reforestation" }
+      { name: "Eden Reforestation Projects", location: "USA", type: "Not-for-profit", customer: "Consumer", tags: ["trees"], positioning: "Mass-scale reforestation" },
+      { name: "C4: Cassowary Conservation", location: "Australia", type: "Not-for-profit", customer: "Consumer", tags: ["land","biodiversity","ecosystem","donation"], positioning: "Protects cassowaries and coastal rainforest through land buyback", website: "https://www.cassowaryconservation.org" },
+      { name: "Gondwana Rainforest Trust", location: "Australia", type: "Not-for-profit", customer: "Consumer", tags: ["land","biodiversity","trees","donation"], positioning: "Purchases, protects, and restores endangered rainforest", website: "https://www.gondwanarainforesttrust.org" }
     ]
   },
   {
@@ -448,7 +452,10 @@ function renderCards() {
               ${item.location ? `<span class="location">${item.location}</span>` : ''}
               ${(item.tags||[]).map(t => `<span class="tag">${t}</span>`).join('')}
             </div>
-            ${item.website ? `<a class="card-link" href="${item.website}" target="_blank" rel="noopener">Visit website <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-4.5-6H21m0 0v7.5m0-7.5l-9 9"/></svg></a>` : ''}
+            <div class="card-links">
+              ${item.website ? `<a class="card-link" href="${item.website}" target="_blank" rel="noopener">Website <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-4.5-6H21m0 0v7.5m0-7.5l-9 9"/></svg></a>` : ''}
+              ${item.map ? `<a class="card-link map-link" href="${item.map}" target="_blank" rel="noopener">Live map <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503-11.244l-3.006-1.502a.75.75 0 00-.67 0L9.003 6.006a.75.75 0 01-.67 0L4.83 4.254a.75.75 0 00-1.08.67v12.572a.75.75 0 00.42.67l3.503 1.752a.75.75 0 00.67 0l3.154-1.577a.75.75 0 01.67 0l3.154 1.577a.75.75 0 001.08-.67V4.924a.75.75 0 00-.42-.67l-3.503-1.498z"/></svg></a>` : ''}
+            </div>
           </div>
         `).join('')}
       </div>
